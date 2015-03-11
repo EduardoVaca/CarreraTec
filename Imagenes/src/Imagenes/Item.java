@@ -10,7 +10,7 @@ import java.awt.Image;
 public class Item {
     
     Image imagen;
-    int x = 0, y = 90, vx = 0;
+    int x = 0, y = 90, vx = 5;
     int maxvel = 5;
     int alto, ancho;
     Colisionador col;
@@ -23,6 +23,12 @@ public class Item {
         this.ancho = ancho;
         col = new Colisionador(x, y, alto, ancho);
     }
+
+    public Colisionador getCol() {
+        return col;
+    }
+    
+    
     
     public void dibuja(Graphics g)
     {

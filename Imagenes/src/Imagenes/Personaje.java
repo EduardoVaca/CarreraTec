@@ -7,7 +7,7 @@ package Imagenes;
 import java.awt.Graphics;
 
 public class Personaje {
-    enum Estados {jump,run}
+    enum Estados {jump, run, colision}
     Estados estado=Estados.run;
     Cronometro duracion= new Cronometro(7,400);
     int x, y;
@@ -36,11 +36,12 @@ public class Personaje {
         this.x=x;
         this.y=y;
     }
-    /*
-    void setColisionador(int xSup, int ySup, int alto, int ancho)
-    {
-        col = new Colisionador(xSup, ySup, alto, ancho);
-    }*/
+
+    public Colisionador getCol() {
+        return col;
+    }
+
+    
     
     void setEstado(Estados nuevoEstado)
     {
@@ -51,23 +52,28 @@ public class Personaje {
         switch(estado)
         {
             case run:
-             nombreImagen = "run1";
-             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+".gif"), x, y, null);
-             col.draw(g);
-             break;
+                    nombreImagen = "run1";
+                    g.drawImage(Imagenes.Singleton().imagen(nombreImagen+".gif"), x, y, null);
+                    col.draw(g);
+                    break;
             case jump:
-                 nombreImagen = "jump";
-                 g.drawImage(Imagenes.Singleton().imagen(nombreImagen+contS1+".png"), x, y, null);
-                if(duracion.esTiempo())
-                {
-                    contS1++;
-                    if(contS1 > 7){
-                    estado=estado.run;
-                    contS1 = 1;
-                    }
-                    x += 3;
-                }                
-                break;
+                    nombreImagen = "jump";
+                    g.drawImage(Imagenes.Singleton().imagen(nombreImagen+contS1+".png"), x, y, null);
+                   if(duracion.esTiempo())
+                   {
+                       contS1++;
+                       if(contS1 > 7){
+                       estado=estado.run;
+                       contS1 = 1;
+                       }
+                       x += 3;
+                   }                
+                   break;
+            case colision:
+                          nombreImagen = "colision";
+                          g.drawImage(Imagenes.Singleton().imagen(nombreImagen + ".png"), x, y, null);
+                          break;
+               
         }
     }
 } 

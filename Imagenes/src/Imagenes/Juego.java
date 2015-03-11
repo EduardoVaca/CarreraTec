@@ -38,6 +38,9 @@ public class Juego{
                 for(int i=0;i<numItems;i++)
                 {
                     items[i].dibuja(g);
+                    if(verificaColision(Personaje.Singleton(), items[i])){
+                        Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
+                    }
                 }
    }
    
@@ -63,4 +66,13 @@ public class Juego{
               break;
       }
    }
+      
+      public boolean verificaColision(Personaje p, Item o){
+        if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
+                && (p.getCol().getyInferior() >= o.getCol().getySuperior() && p.getCol().getyInferior() <= o.getCol().getyInferior())){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

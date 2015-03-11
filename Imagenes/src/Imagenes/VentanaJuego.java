@@ -72,5 +72,7 @@ public class VentanaJuego extends JFrame implements KeyListener{
     @Override
     public void keyReleased(KeyEvent ke) {
     }
+    
+    
 
 }
