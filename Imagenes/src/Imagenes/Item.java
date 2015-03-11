@@ -10,8 +10,8 @@ import java.awt.Image;
 public class Item {
     
     Image imagen;
-    int x = 0, y = 90, vx = 5;
-    int maxvel = 5;
+    int x = 0, y = 90, vx = 10;
+    int maxvel = 10;
     int alto, ancho;
     Colisionador col;
     
@@ -36,6 +36,6 @@ public class Item {
       x-=vx;
       col.setxInferior(x + ancho);
       col.setxSuperior(x);
-      col.draw(g);
+      //col.draw(g);
     }
 }

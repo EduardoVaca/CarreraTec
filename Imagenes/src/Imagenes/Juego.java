@@ -46,25 +46,28 @@ public class Juego{
    
       public void comando(KeyEvent e )
     {
-      switch(e.getKeyCode())
-       {
-          case KeyEvent.VK_RIGHT:
-              Teclado.Singleton().derecha=true;
-              break;
-          case KeyEvent.VK_LEFT:
-              Teclado.Singleton().izquierda=true;
-              break;
-          case KeyEvent.VK_UP:
-              Teclado.Singleton().arriba=true;
-              break;
-          case KeyEvent.VK_DOWN:
-              Teclado.Singleton().abajo=true;
-              break;
-          case KeyEvent.VK_SPACE:
-             // Teclado.Singleton().space=true;
-              Personaje.Singleton().setEstado(Personaje.Estados.jump);
-              break;
-      }
+      if(Personaje.Singleton().getEstado() != Personaje.Singleton().estado.colision)
+      {
+         switch(e.getKeyCode())
+        {
+           case KeyEvent.VK_RIGHT:
+               Teclado.Singleton().derecha=true;
+               break;
+           case KeyEvent.VK_LEFT:
+               Teclado.Singleton().izquierda=true;
+               break;
+           case KeyEvent.VK_UP:
+               Teclado.Singleton().arriba=true;
+               break;
+           case KeyEvent.VK_DOWN:
+               Teclado.Singleton().abajo=true;
+               break;
+           case KeyEvent.VK_SPACE:
+              // Teclado.Singleton().space=true;
+               Personaje.Singleton().setEstado(Personaje.Estados.jump);
+               break;
+       } 
+      }      
    }
       
       public boolean verificaColision(Personaje p, Item o){

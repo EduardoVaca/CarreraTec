@@ -16,6 +16,7 @@ public class Personaje {
     static Personaje instancia = null;
     int alto, ancho;
     Colisionador col;
+    int tiempoColision = 0;
    
     static Personaje Singleton(){
         if(instancia==null){
@@ -47,6 +48,12 @@ public class Personaje {
     {
         estado = nuevoEstado;
     }
+
+    public Estados getEstado() {
+        return estado;
+    }
+    
+    
     
     void dibuja(Graphics g){
         switch(estado)
@@ -54,7 +61,7 @@ public class Personaje {
             case run:
                     nombreImagen = "run1";
                     g.drawImage(Imagenes.Singleton().imagen(nombreImagen+".gif"), x, y, null);
-                    col.draw(g);
+                    //col.draw(g);
                     break;
             case jump:
                     nombreImagen = "jump";
@@ -71,7 +78,17 @@ public class Personaje {
                    break;
             case colision:
                           nombreImagen = "colision";
-                          g.drawImage(Imagenes.Singleton().imagen(nombreImagen + ".png"), x, y, null);
+                          g.drawImage(Imagenes.Singleton().imagen(nombreImagen + ".png"), x, y, null);                          
+                          if(duracion.esTiempo())
+                          {                              
+                            tiempoColision++;                            
+                            if(tiempoColision > 17){
+                                   estado = estado.run;
+                                   tiempoColision = 0;
+                            }                              
+
+                              
+                          }
                           break;
                
         }
