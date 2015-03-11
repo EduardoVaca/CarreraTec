@@ -21,7 +21,8 @@ public class Juego{
            {
             items[i] = new Item();
            }
-           Personaje.Singleton().setPosicion(0, 50);
+           Personaje.Singleton().setPosicion(30, 50);
+           Personaje.Singleton().setTamano(96, 96);
            //Personaje.Singleton().setPosicion(VentanaJuego.Singleton().getWidth() /2, VentanaJuego.Singleton().getHeight()/2);
            //Personaje.Singleton().setEstado(Personaje.Estados.run);
                instancia.fondo=new Fondo();
