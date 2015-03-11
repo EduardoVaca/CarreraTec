@@ -22,6 +22,7 @@ public class VentanaJuego extends JFrame implements KeyListener{
     private long tiempoActual = tiempoInicial;
     private long periodoRepintado = 32;
     
+    
     public static VentanaJuego instancia = null;
     //Es estatico para que no sea necesario crear un objeto para acceder a esta instancia 
     public static VentanaJuego Singleton()

@@ -9,9 +9,9 @@ import java.awt.event.KeyEvent;
 
 public class Juego{
     static Juego instancia=null;
-    static int numItems = 1;
+    static int numItems = 2;
     static Item [] items = new Item[numItems];
-
+    private Fondo fondo;
    public static Juego Singleton()
    {
         if(instancia==null)
@@ -24,13 +24,15 @@ public class Juego{
            Personaje.Singleton().setPosicion(0, 50);
            //Personaje.Singleton().setPosicion(VentanaJuego.Singleton().getWidth() /2, VentanaJuego.Singleton().getHeight()/2);
            //Personaje.Singleton().setEstado(Personaje.Estados.run);
+               instancia.fondo=new Fondo();
         }
         return instancia;
    }
    
    public void actualiza(Graphics g)
    {
-                g.drawImage(Imagenes.Singleton().imagen("Nivel2.png"),0,0,null);
+                fondo.dibujaImagen(g);
+                //g.drawImage(Imagenes.Singleton().imagen("Nivel2.png"),0,0,null);
                 Personaje.Singleton().dibuja(g);  
                 for(int i=0;i<numItems;i++)
                 {
