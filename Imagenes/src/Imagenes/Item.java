@@ -11,7 +11,7 @@ public class Item {
     
     Image imagen=Imagenes.Singleton().imagen("pokeball.png");
     int x=0, y=90, vx=0;
-    int maxvel=5;
+    int maxvel = 10;
     
     public Item(){
         this.x = VentanaJuego.Singleton().getWidth();
