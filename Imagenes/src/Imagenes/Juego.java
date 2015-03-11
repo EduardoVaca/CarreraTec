@@ -19,7 +19,7 @@ public class Juego{
            instancia=new Juego();
            for(int i=0; i<numItems; i++)
            {
-            items[i] = new Item();
+            items[i] = new Item("pokeball.png", 60, 60);
            }
            Personaje.Singleton().setPosicion(30, 50);
            Personaje.Singleton().setTamano(96, 96);

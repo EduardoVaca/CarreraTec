@@ -9,18 +9,27 @@ import java.awt.Image;
 
 public class Item {
     
-    Image imagen=Imagenes.Singleton().imagen("pokeball.png");
-    int x=0, y=90, vx=0;
-    int maxvel = 10;
+    Image imagen;
+    int x = 0, y = 90, vx = 0;
+    int maxvel = 5;
+    int alto, ancho;
+    Colisionador col;
     
-    public Item(){
+    public Item(String nombre, int ancho, int alto){
         this.x = VentanaJuego.Singleton().getWidth();
         this.vx = (int)(Math.random() * maxvel);
+        imagen=Imagenes.Singleton().imagen(nombre);
+        this.alto = alto;
+        this.ancho = ancho;
+        col = new Colisionador(x, y, alto, ancho);
     }
     
     public void dibuja(Graphics g)
     {
       g.drawImage(imagen, x, y, null);
       x-=vx;
+      col.setxInferior(x + ancho);
+      col.setxSuperior(x);
+      col.draw(g);
     }
 }
