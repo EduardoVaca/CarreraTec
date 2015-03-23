@@ -6,10 +6,6 @@ package Imagenes;
 
 import java.awt.event.KeyEvent;
 
-/**
- *
- * @author Nancy
- */
 public class Teclado {
     
     static Teclado instancia=null;
@@ -36,6 +32,14 @@ public class Teclado {
            instancia=new Teclado();
         }
         return instancia;
+   }
+
+  public void comandoDeshabilitado()
+   {
+    Teclado.Singleton().abajo =false;
+    Teclado.Singleton().arriba =false;
+    Teclado.Singleton().izquierda =false;
+    Teclado.Singleton().derecha =false;
    }
    
 }

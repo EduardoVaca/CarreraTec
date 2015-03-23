@@ -8,21 +8,33 @@ import java.awt.Graphics;
 
 public class Personaje {
     enum Estados {jump, run, colision}
-    Estados estado=Estados.run;
-    Cronometro duracion= new Cronometro(7,400);
+    Estados estado = Estados.run;
+    Cronometro duracion = new Cronometro(4,400);
     int x, y;
     int contS1 = 1;
-    String nombreImagen = "";
+
+    int numeroImagenes;
+    String nombreImagen;
+    double contador = 4; 
     static Personaje instancia = null;
+    
     int alto, ancho;
     Colisionador col;
     int tiempoColision = 0;
    
-    static Personaje Singleton(){
-        if(instancia==null){
+    static Personaje Singleton()
+    {
+        if(instancia==null)
+        {
             instancia=new Personaje();
         }
         return instancia;
+    }
+
+    public Personaje()
+    {
+      this.numeroImagenes = 7;
+      this.nombreImagen = "E3";
     }
     
     void setTamano(int alto, int ancho)
@@ -43,7 +55,6 @@ public class Personaje {
     }
 
     
-    
     void setEstado(Estados nuevoEstado)
     {
         estado = nuevoEstado;
@@ -53,44 +64,75 @@ public class Personaje {
         return estado;
     }
     
-    
-    
-    void dibuja(Graphics g){
+    void dibuja(Graphics g)
+    {
+
+      //VOLVER A PISO
+      while(y <= 50 && Teclado.Singleton().space == false) //50 es la posicion actual de piso
+        { 
+         y++;
+        }
+      
+      //EN CASO DE SER SALTO
+      if(Teclado.Singleton().space)
+      {
+        contador = contador + 0.1;
+        
+        y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 5); //Gravedad
+        x= x + 5; //Avance en x
+        
+            Teclado.Singleton().comandoDeshabilitado();
+      }
+      
+      //CAMBIO DE ESTADO
         switch(estado)
         {
-            case run:
-                    nombreImagen = "run1";
-                    g.drawImage(Imagenes.Singleton().imagen(nombreImagen+".gif"), x, y, null);
-                    //col.draw(g);
-                    break;
-            case jump:
-                    nombreImagen = "jump";
-                    g.drawImage(Imagenes.Singleton().imagen(nombreImagen+contS1+".png"), x, y, null);
-                   if(duracion.esTiempo())
-                   {
-                       contS1++;
-                       if(contS1 > 7){
-                       estado=estado.run;
-                       contS1 = 1;
-                       }
-                       x += 3;
-                   }                
-                   break;
-            case colision:
-                          nombreImagen = "colision";
-                          g.drawImage(Imagenes.Singleton().imagen(nombreImagen + ".png"), x, y, null);                          
-                          if(duracion.esTiempo())
-                          {                              
-                            tiempoColision++;                            
-                            if(tiempoColision > 17){
-                                   estado = estado.run;
-                                   tiempoColision = 0;
-                            }                              
+             case run:
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"run.gif"), x, y, null);
+             break;
+             
+             case jump:
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"jump"+contS1+".png"), x, y, null);
+             this.animacionSalto(numeroImagenes);
+             break;
 
-                              
-                          }
-                          break;
-               
+             case colision:
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"colision.png"), x, y, null);                          
+             if(duracion.esTiempo())
+               {                              
+                tiempoColision++;                            
+                if(tiempoColision > 17)
+                {
+                  estado = estado.run;
+                  tiempoColision = 0;
+                }                                              
+              }
+             break;     
         }
     }
-} 
+
+
+    public void animacionSalto(int numeroImagenes)
+    {
+      if(duracion.esTiempo())
+      {
+         contS1++;
+             
+             if(contS1 > numeroImagenes)
+             {
+             contS1 = 1;
+             Teclado.Singleton().space = false;
+              estado = estado.run;
+             }
+      }
+    }
+    
+    public String getNombreImagen() {
+    return nombreImagen;
+  }
+
+  public void setNombreImagen(String nombreImagen) {
+    this.nombreImagen = nombreImagen;
+  }
+ 
+}

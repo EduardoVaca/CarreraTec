@@ -63,9 +63,13 @@ public class Juego{
                Teclado.Singleton().abajo=true;
                break;
            case KeyEvent.VK_SPACE:
-              // Teclado.Singleton().space=true;
-               Personaje.Singleton().setEstado(Personaje.Estados.jump);
-               break;
+            if( Teclado.Singleton().arriba ) //Validacion de comando (ejemplo 1 tecla) provisional
+            {
+              Personaje.Singleton().setEstado(Personaje.Estados.jump);
+              Teclado.Singleton().space= true;
+              Personaje.Singleton().contador=4; 
+            }
+            break;
        } 
       }      
    }

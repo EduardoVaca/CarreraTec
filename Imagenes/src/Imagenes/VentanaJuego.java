@@ -12,10 +12,6 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Eduardo
- */
 public class VentanaJuego extends JFrame implements KeyListener{
     
     private long tiempoInicial = System.currentTimeMillis();
@@ -71,8 +67,6 @@ public class VentanaJuego extends JFrame implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent ke) {
+    	Teclado.Singleton().space=false;
     }
-    
-    
-
 }
