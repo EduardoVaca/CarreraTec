@@ -50,8 +50,9 @@ public class Juego{
                  /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
                  if(barraDesbloqueada){
                      barraEspaciadora.draw(g);                     
-                 }                     
-                 if(!teclasDibujadas){
+                 }  
+                 /*Si no hay teclas dibujadas y el personaje esta en estado  CORRIENDO, se generan las teclas a presionar*/
+                 if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){
                      teclas = generaTeclas();                    
                      teclasDibujadas = true;
                  }
@@ -100,6 +101,7 @@ public class Juego{
               Personaje.Singleton().setEstado(Personaje.Estados.jump);
               Teclado.Singleton().space = true;
               Personaje.Singleton().contador = 4; 
+              teclasDibujadas = false;
             }
             break;
        }
