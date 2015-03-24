@@ -20,22 +20,36 @@ public class Tecla {
     int posX;
     int posY;
     Image imagen;
+    char letra;
     
     public Tecla(int posX, int posY){
         Random rand = new Random();
         int numero = rand.nextInt(4);
-        if(numero == 0)
+        if(numero == 0){
             nombre = "TeclaA.png";
-        if(numero == 1)
+            letra = 'A';
+        }            
+        if(numero == 1){
             nombre = "TeclaW.png";
-        if(numero == 2)
+            letra = 'W';
+        }            
+        if(numero == 2){
             nombre = "TeclaS.png";
-        if(numero == 3)
+            letra = 'S';
+        }            
+        if(numero == 3){
             nombre = "TeclaD.png";
+            letra = 'D';
+        }            
         imagen = Imagenes.Singleton().imagen(nombre);
         this.posX = posX;
         this.posY = posY;
     }
+
+    public char getLetra() {
+        return letra;
+    }
+        
     
     void draw(Graphics g){
         g.drawImage(imagen, posX, posY, null);

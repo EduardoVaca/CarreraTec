@@ -17,6 +17,7 @@ public class Juego{
     static int numBotones;
     boolean barraDesbloqueada, teclasDibujadas;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
+    char teclaPresionada;
     
     public static Juego Singleton()
     {
@@ -50,8 +51,11 @@ public class Juego{
                      teclas = generaTeclas();                    
                      teclasDibujadas = true;
                  }
-                 for(Tecla i: teclas)
-                     i.draw(g);
+                 if(teclas.size() > 0){
+                    verificaTeclaPresionada();                 
+                    for(Tecla i: teclas)
+                        i.draw(g);
+                 }             
     }
    
    /*Metodo que genera las telcas y las agrega al ArrayList, 
@@ -93,10 +97,24 @@ public class Juego{
               Personaje.Singleton().contador = 4; 
             }
             break;
-       } 
+       }
+        teclaPresionada = e.getKeyChar();
+        if(teclaPresionada >= 97)
+            teclaPresionada -= 32;
+        System.out.println("CHAR: " + teclaPresionada);
       }      
     }
       
+     void verificaTeclaPresionada(){
+         if(teclaPresionada == teclas.get(0).getLetra()){
+             teclas.remove(0);
+         }
+         teclaPresionada = '*';
+     }
+      
+      /*Metodo que verifica si ha existido colision del Personaje con los items en movimiento
+      Regresa un booleano indicando si choco o no
+      */
       public boolean verificaColision(Personaje p, Item o){
         if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
                 && (p.getCol().getyInferior() >= o.getCol().getySuperior() && p.getCol().getyInferior() <= o.getCol().getyInferior())){
