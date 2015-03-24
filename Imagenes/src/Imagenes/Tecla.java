@@ -45,6 +45,13 @@ public class Tecla {
         this.posX = posX;
         this.posY = posY;
     }
+    
+    public Tecla(String nombre, int posX, int posY){
+        this.nombre = nombre;
+        this.posX = posX;
+        this.posY = posY;
+        imagen = Imagenes.Singleton().imagen(nombre);
+    }
 
     public char getLetra() {
         return letra;

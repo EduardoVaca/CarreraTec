@@ -18,6 +18,7 @@ public class Juego{
     boolean barraDesbloqueada, teclasDibujadas;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
     char teclaPresionada;
+    Tecla barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 100); // Tecla de barra espaciadora unica
     
     public static Juego Singleton()
     {
@@ -47,6 +48,9 @@ public class Juego{
                      }
                  }
                  /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
+                 if(barraDesbloqueada){
+                     barraEspaciadora.draw(g);                     
+                 }                     
                  if(!teclasDibujadas){
                      teclas = generaTeclas();                    
                      teclasDibujadas = true;
@@ -90,8 +94,9 @@ public class Juego{
                Teclado.Singleton().abajo = true;
                break;
            case KeyEvent.VK_SPACE:
-            if( Teclado.Singleton().arriba ) //Validacion de comando (ejemplo 1 tecla) provisional
+            if( barraDesbloqueada) //Validacion de comando
             {
+              barraDesbloqueada = false;
               Personaje.Singleton().setEstado(Personaje.Estados.jump);
               Teclado.Singleton().space = true;
               Personaje.Singleton().contador = 4; 
@@ -101,15 +106,17 @@ public class Juego{
         teclaPresionada = e.getKeyChar();
         if(teclaPresionada >= 97)
             teclaPresionada -= 32;
-        System.out.println("CHAR: " + teclaPresionada);
+        //System.out.println("CHAR: " + teclaPresionada);
       }      
     }
-      
+    /*Metodo que verifica si la tecla presionada corresponde al primer botonTecla mostrado, si coincide lo elimina*/  
      void verificaTeclaPresionada(){
          if(teclaPresionada == teclas.get(0).getLetra()){
              teclas.remove(0);
          }
          teclaPresionada = '*';
+         if(teclas.size() == 0)
+             barraDesbloqueada = true;
      }
       
       /*Metodo que verifica si ha existido colision del Personaje con los items en movimiento
