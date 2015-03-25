@@ -13,7 +13,6 @@ public class Juego{
     static Juego instancia=null;
     static int numItems = 2;
     static Item [] items = new Item[numItems];
-    private Fondo fondo;
     static int numBotones;
     boolean barraDesbloqueada, teclasDibujadas;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
@@ -31,14 +30,13 @@ public class Juego{
             }
             Personaje.Singleton().setPosicion(30, 50);
             Personaje.Singleton().setTamano(96, 96);
-                instancia.fondo=new Fondo();
          }
          return instancia;
     }
    
     public void actualiza(Graphics g)
     {
-                 fondo.dibujaImagen(g);                
+                  Fondo.Singleton().dibujaImagen(g);                
                  Personaje.Singleton().dibuja(g);  
                  for(int i=0;i<numItems;i++)
                  {

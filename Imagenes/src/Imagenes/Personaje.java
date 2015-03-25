@@ -100,10 +100,12 @@ public class Personaje {
              g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"colision.png"), x, y, null);                          
              if(duracion.esTiempo())
                {                              
-                tiempoColision++;                            
+                tiempoColision++; 
+                Fondo.Singleton().setAceleracion(0); //aceleracion nula
                 if(tiempoColision > 17)
                 {
                   estado = estado.run;
+                  Fondo.Singleton().setAceleracion(4); // aceleracion default
                   tiempoColision = 0;
                 }                                              
               }
