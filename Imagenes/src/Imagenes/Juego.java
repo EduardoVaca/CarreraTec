@@ -105,8 +105,7 @@ public class Juego{
        }
         teclaPresionada = e.getKeyChar();
         if(teclaPresionada >= 97)
-            teclaPresionada -= 32;
-        //System.out.println("CHAR: " + teclaPresionada);
+            teclaPresionada -= 32;        
       }      
     }
     /*Metodo que verifica si la tecla presionada corresponde al primer botonTecla mostrado, si coincide lo elimina*/  
