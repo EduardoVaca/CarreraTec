@@ -19,6 +19,9 @@ public class Juego{
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
     char teclaPresionada;
     Tecla barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 100); // Tecla de barra espaciadora unica
+    Estrella estrellas [] = new Estrella [7];
+    int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
+    int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
     
     public static Juego Singleton()
     {
@@ -40,20 +43,29 @@ public class Juego{
     {
                  fondo.dibujaImagen(g);                
                  Personaje.Singleton().dibuja(g);  
+                 dibujaEstrellas(g);
                  for(int i=0;i<numItems;i++)
                  {
                      items[i].dibuja(g);
                      if(verificaColision(Personaje.Singleton(), items[i])){
                          Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
+                         numero_de_estrellas_posibles = 0;
                      }
                  }
                  /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
                  if(barraDesbloqueada){
-                     barraEspaciadora.draw(g);                     
+                     barraEspaciadora.draw(g); 
+                     
                  }  
                  /*Si no hay teclas dibujadas y el personaje esta en estado  CORRIENDO, se generan las teclas a presionar*/
                  if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){
-                     teclas = generaTeclas();                    
+                     teclas = generaTeclas(); 
+                     numero_de_estrellas_reales += numero_de_estrellas_posibles;
+                     numero_de_estrellas_posibles = 0;
+                     if(numero_de_estrellas_reales >= 7){
+                         numero_de_estrellas_reales = 0;
+                         //AQUI SE DESACTIVA LA COLISION
+                     }
                      teclasDibujadas = true;
                  }
                  if(teclas.size() > 0){
@@ -114,6 +126,7 @@ public class Juego{
      void verificaTeclaPresionada(){
          if(teclaPresionada == teclas.get(0).getLetra()){
              teclas.remove(0);
+             numero_de_estrellas_posibles ++;
          }
          teclaPresionada = '*';
          if(teclas.size() == 0)
@@ -131,4 +144,11 @@ public class Juego{
             return false;
         }
      }
+      /*Metodo que dibuja las estrellas en el JFrame*/
+      public void dibujaEstrellas(Graphics g){
+          for(int i = 0; i < numero_de_estrellas_reales; i++){
+              estrellas[i] = new Estrella(10 + (50 * i), 50);
+              estrellas[i].draw(g);
+          }
+      }
 }
