@@ -6,22 +6,20 @@
 
 package Imagenes;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-/**
- *
- * @author Eduardo
- */
 public class VentanaJuego extends JFrame implements KeyListener{
     
     private long tiempoInicial = System.currentTimeMillis();
     private long tiempoActual = tiempoInicial;
     private long periodoRepintado = 32;
-    
     
     public static VentanaJuego instancia = null;
     //Es estatico para que no sea necesario crear un objeto para acceder a esta instancia 
@@ -32,6 +30,7 @@ public class VentanaJuego extends JFrame implements KeyListener{
             instancia = new VentanaJuego();
             instancia.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             instancia.setBounds(100, 100, 956, 205);  
+           // instancia.setContentPane(MenuInicio.Singleton());
             instancia.setVisible(true);
             instancia.createBufferStrategy(2);
             instancia.addKeyListener(instancia);
@@ -41,8 +40,9 @@ public class VentanaJuego extends JFrame implements KeyListener{
     }
     
     @Override
-    public void paint(Graphics g)
+   public void paint(Graphics g)
     {
+        
         tiempoActual = System.currentTimeMillis();
         if(tiempoActual - tiempoInicial >= periodoRepintado){
             tiempoInicial = tiempoActual;
@@ -53,11 +53,15 @@ public class VentanaJuego extends JFrame implements KeyListener{
             if(buffer != null)
             {
                 Graphics segundo= buffer.getDrawGraphics();
-                Juego.Singleton().actualiza(segundo);
+               
+                    Juego.Singleton().actualiza(segundo);
+                
                 buffer.show();
+                
             }
-            
+        
         }
+        repaint();
     }
 
     @Override
@@ -71,6 +75,8 @@ public class VentanaJuego extends JFrame implements KeyListener{
 
     @Override
     public void keyReleased(KeyEvent ke) {
+    	Teclado.Singleton().space=false;
     }
 
+    
 }
