@@ -31,7 +31,7 @@ public class Nivel2 {
     public void dibuja (Graphics g)
     {
         Fondo.Singleton().dibujaImagenn2(g);
-        VentanaJuego.Singleton().setBounds(100, 100, 956, 220);
+        VentanaJuego.Singleton().setBounds(100, 100, 956, 317);
         if(!Juego.Singleton().teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run)
         {
                      Juego.Singleton().teclas = Juego.Singleton().generaTeclas(100);                    

@@ -12,9 +12,11 @@ public class Fondo {
 
     private int x=0,y=0; 
     int aceleracion = 4; //velocidad a la que se mueve el background
-    int incrementoMax = 250; // duracion de los lapsos para incrementar velocidad
+    int incrementoMax=250; // duracion de los lapsos para incrementar velocidad
     int contadorIncremento=0; //inicio de un lapso
-    
+    boolean desarrollo, fin = false;
+    boolean inicio=true;
+    int contn2=0;
     static Fondo instancia = null;
 
     static Fondo Singleton()
@@ -34,7 +36,8 @@ public class Fondo {
 		this.aceleracion = aceleracion;
 	}
 
-	 public void dibujaImagenn1(Graphics g)
+
+        public void dibujaImagenn1(Graphics g)
         {
 		/*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
 		if(contadorIncremento == incrementoMax) 
@@ -44,12 +47,38 @@ public class Fondo {
 		}
 		
 		contadorIncremento++;
-		
-        g.drawImage(Imagenes.Singleton().imagen("Nivel1.jpg"), getX(), getY(), null);
+		if(inicio)
+                {
+                    g.drawImage(Imagenes.Singleton().imagen("Nivel1inicio.png"), getX(), 25, null);
+                }
+                else if(desarrollo)
+                {
+                    g.drawImage(Imagenes.Singleton().imagen("Nivel1.png"), getX(), 25, null);
+                }
+                else if(fin)
+                {
+                    g.drawImage(Imagenes.Singleton().imagen("Nivel1final.png"), getX(), 25, null);
+                }
         setX(getX() - aceleracion);
-        if(getX()<-996)
+        if(inicio && getX()<-994)
+        {
+            setX(0);
+            inicio=false;
+            desarrollo=true;
+        }
+        if(getX()<-1988)
         {
         	setX(0);
+                if(desarrollo)
+                {
+                    desarrollo=false;
+                    fin=true;
+                }
+                else if(fin)
+                {
+                    fin=false;
+                    Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
+                }
         }
     }
         
@@ -66,20 +95,40 @@ public class Fondo {
 		}
 		
 		contadorIncremento++;
-		
-        g.drawImage(Imagenes.Singleton().imagen("Nivel2.png"), getX(), getY(), null);
+		if(inicio)
+                {
+                    g.drawImage(Imagenes.Singleton().imagen("Nivel2.jpg"), getX(), 25, null);
+                }
+                else if(fin)
+                {
+                    g.drawImage(Imagenes.Singleton().imagen("Nivel2final.png"), getX(), 25, null);
+                }    
+                
+        
         setX(getX() - aceleracion);
         if(getX()<-955)
         {
-        	setX(0);
+            contn2++;
+            setX(0);
+            if(contn2==2)
+            {
+                inicio=false;
+                fin=true;
+            }
+            else if(fin)
+            {
+                fin=false;
+            }
         }
     }
 
-    public int getX() {
+
+ public int getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(int x) 
+    {
         this.x = x;
     }
 
