@@ -11,28 +11,26 @@ import java.util.Random;
 
 public class Juego{
     static Juego instancia=null;
-    static int numItems = 7;
-    static Item [] items = new Item[numItems];
+    static int numItems = 0;    
     static int numBotones;
-    boolean barraDesbloqueada, teclasDibujadas, poderEspecial;
+    boolean barraDesbloqueada, teclasDibujadas, poderEspecial, yaAgregoItem;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
+    ArrayList<Item> lista_items = new ArrayList<Item>();
     char teclaPresionada;
     Tecla barraEspaciadora; // Tecla de barra espaciadora unica
     Estrella estrellas [] = new Estrella [7];
-    int numero_de_estrellas_reales = 5; // variable para contar las estrellas dibujadas
+    int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
     int piso;
     Temporizador t = new Temporizador();
+    int constante_de_generacion_items = 4; //variable para ver cada cuantos segundos se generara un item   
+    int segundoActual;
     
     public static Juego Singleton()
     {
          if(instancia==null)
          {
             instancia=new Juego();
-            for(int i=0; i<numItems; i++)
-            {
-             items[i] = new Item("pokeball.png", 60, 60);
-            }
             Personaje.Singleton().setPosicion(30, 50);
             Personaje.Singleton().setTamano(96, 96);
          }
@@ -45,28 +43,26 @@ public class Juego{
              piso = 175;
              Nivel1.Singleton().dibuja(g);
          }else{
-             piso = 100;
+             piso = 175;
               Nivel2.Singleton().dibuja(g);
          }                                              
         Personaje.Singleton().dibuja(g); 
         Personaje.Singleton().getCol().draw(g);
         dibujaEstrellas(g);
-
-        for(int i=0;i<numItems;i++)
-        {
-            items[i].dibuja(g);
-            if(verificaColision(Personaje.Singleton(), items[i]) && poderEspecial == false){
-                Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
-                numero_de_estrellas_posibles = 0;
-            }
+        //Condicion que cuida relacion entre tiempo y reproduccion de frames
+        if(Temporizador.Singleton().getSegundos() % constante_de_generacion_items == 0 && yaAgregoItem == false){
+            generacionDeItems(g);                      
         }
+        else if(segundoActual != Temporizador.Singleton().getSegundos())
+            yaAgregoItem = false;
+       
         /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
         if(barraDesbloqueada){
             barraEspaciadora.draw(g); 
 
         }  
         /*Si no hay teclas dibujadas y el personaje esta en estado  CORRIENDO, se generan las teclas a presionar*/
-        if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){
+        if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){            
             teclas = generaTeclas(piso); 
             numero_de_estrellas_reales += numero_de_estrellas_posibles;
             numero_de_estrellas_posibles = 0;
@@ -86,6 +82,20 @@ public class Juego{
         }
         if(poderEspecial)
             desactivarColision(t);
+        
+        for(Item i : lista_items){
+              if(i.getX() < -50 && lista_items.size() == 1)
+                 lista_items.remove(0);
+              else{
+                  i.dibuja(g);
+                if(verificaColision(Personaje.Singleton(), i) && poderEspecial == false){
+                //Desactivar colisionador del item con el que choco....
+                Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);                
+                numero_de_estrellas_posibles = 0;
+                }
+              }
+                  
+         }
     }
    
    /*Metodo que genera las telcas y las agrega al ArrayList, 
@@ -153,6 +163,9 @@ public class Juego{
         if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
                 && (p.getCol().getyInferior() >= o.getCol().getySuperior() && p.getCol().getyInferior() <= o.getCol().getyInferior())){
             return true;
+        }else if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
+                && (o.getCol().getySuperior() >= p.getCol().getySuperior() && o.getCol().getySuperior() <= p.getCol().getyInferior())){
+            return true;
         }else{
             return false;
         }
@@ -165,9 +178,17 @@ public class Juego{
           }
       }
       
+      /*Metodo para frenar poder especial hasta que el mini temporizador sea 00:00*/
       public void desactivarColision(Temporizador t){         
-          System.out.println(t.toString());
+          //System.out.println(t.toString());
           if(t.toString().equals("00:00"))
               poderEspecial = false;
+      }
+      
+      public void generacionDeItems(Graphics g){          
+            lista_items.add(new Item(50,50));
+            yaAgregoItem = true;
+            segundoActual = Temporizador.Singleton().getSegundos(); 
+            System.out.println("SE AGREGO ITEM EN TIEMPO: " + Temporizador.Singleton().toString() + " ... " + Temporizador.Singleton().getSegundos());
       }
 }

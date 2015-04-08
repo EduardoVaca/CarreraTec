@@ -96,7 +96,7 @@ public class Temporizador extends SwingWorker<Boolean,Void>{
         {
             try
             {
-                //System.out.println(toString());
+                System.out.println(toString());
                 Thread.sleep(1000);
                 decrementa();
             }
