@@ -18,7 +18,7 @@ public class Item {
     public Item(String nombre, int ancho, int alto){
         this.x = VentanaJuego.Singleton().getWidth();
         this.vx = (int)(Math.random() * maxvel);
-        imagen=Imagenes.Singleton().imagen(nombre);
+        imagen = Imagenes.Singleton().imagen(nombre);
         this.alto = alto;
         this.ancho = ancho;
         col = new Colisionador(x, y, alto, ancho);

@@ -81,7 +81,7 @@ public class Personaje {
         y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 5); //Gravedad
         x= x + 5; //Avance en x
         
-            Teclado.Singleton().comandoDeshabilitado();
+        Teclado.Singleton().comandoDeshabilitado();
       }
       
       //CAMBIO DE ESTADO
