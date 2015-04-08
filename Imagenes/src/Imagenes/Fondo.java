@@ -11,8 +11,8 @@ import java.awt.Graphics;
 public class Fondo {
 
     private int x=0,y=0; 
-	int aceleracion = 4; //velocidad a la que se mueve el background
-    int incrementoMax=250; // duracion de los lapsos para incrementar velocidad
+    int aceleracion = 4; //velocidad a la que se mueve el background
+    int incrementoMax = 250; // duracion de los lapsos para incrementar velocidad
     int contadorIncremento=0; //inicio de un lapso
     
     static Fondo instancia = null;

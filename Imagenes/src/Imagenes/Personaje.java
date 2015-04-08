@@ -93,6 +93,8 @@ public class Personaje {
         
         Teclado.Singleton().comandoDeshabilitado();
       }
+      col.setyInferior(y + alto);
+      col.setySuperior(y);
       
       //CAMBIO DE ESTADO
         switch(estado)

@@ -153,7 +153,6 @@ public class MenuInicio extends JFrame implements KeyListener
                }
                break;
         }
-
         repaint();
     }
 

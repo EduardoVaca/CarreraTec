@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class Juego{
     static Juego instancia=null;
-    static int numItems = 7;
+    static int numItems = 1;
     static Item [] items = new Item[numItems];
     static int numBotones;
     boolean barraDesbloqueada, teclasDibujadas, poderEspecial;
@@ -19,7 +19,7 @@ public class Juego{
     char teclaPresionada;
     Tecla barraEspaciadora; // Tecla de barra espaciadora unica
     Estrella estrellas [] = new Estrella [7];
-    int numero_de_estrellas_reales = 5; // variable para contar las estrellas dibujadas
+    int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
     int piso;
     Temporizador t = new Temporizador();
@@ -31,7 +31,7 @@ public class Juego{
             instancia=new Juego();
             for(int i=0; i<numItems; i++)
             {
-             items[i] = new Item("pokeball.png", 60, 60);
+             items[i] = new Item(50, 50);
             }
             Personaje.Singleton().setPosicion(30, 50);
             Personaje.Singleton().setTamano(96, 96);
@@ -153,6 +153,9 @@ public class Juego{
         if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
                 && (p.getCol().getyInferior() >= o.getCol().getySuperior() && p.getCol().getyInferior() <= o.getCol().getyInferior())){
             return true;
+        }else if((p.getCol().getxInferior() >= o.getCol().getxSuperior() && p.getCol().getxInferior() <= o.getCol().getxInferior()) 
+                && (o.getCol().getySuperior() >= p.getCol().getySuperior() && o.getCol().getySuperior() <= p.getCol().getyInferior())){
+            return true;
         }else{
             return false;
         }
@@ -165,8 +168,9 @@ public class Juego{
           }
       }
       
+      /*Metodo para frenar poder especial hasta que el mini temporizador sea 00:00*/
       public void desactivarColision(Temporizador t){         
-          System.out.println(t.toString());
+          //System.out.println(t.toString());
           if(t.toString().equals("00:00"))
               poderEspecial = false;
       }

@@ -6,6 +6,7 @@ package Imagenes;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.Random;
 
 public class Item {
     
@@ -14,17 +15,24 @@ public class Item {
     int maxvel = 10;
     int alto, ancho;
     Colisionador col;
+    String nombre;
     
-    public Item(String nombre, int ancho, int alto){
+    public Item(int ancho, int alto){ 
+        Random r = new Random();
+        if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1){
+            nombre = "item" + (r.nextInt(3) + 1) + ".png";
+            y = 215;
+        }            
+        else if (MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n2){
+            nombre = "item" + (r.nextInt(3) + 4) + ".png";
+            y = 90;   
+        }
         this.x = VentanaJuego.Singleton().getWidth();
-        this.vx = (int)(Math.random() * maxvel);
+        this.vx = Fondo.Singleton().getAceleracion();
         imagen = Imagenes.Singleton().imagen(nombre);
         this.alto = alto;
         this.ancho = ancho;
-        if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1)
-            y = 215;
-        else if (MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n2)
-            y = 90;
+                  
         col = new Colisionador(x, y, alto, ancho);       
     }
 
@@ -40,6 +48,6 @@ public class Item {
       x-=vx;
       col.setxInferior(x + ancho);
       col.setxSuperior(x);
-      //col.draw(g);
+      col.draw(g);
     }
 }
