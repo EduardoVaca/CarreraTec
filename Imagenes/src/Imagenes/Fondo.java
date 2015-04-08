@@ -34,8 +34,30 @@ public class Fondo {
 		this.aceleracion = aceleracion;
 	}
 
-	public void dibujaImagen(Graphics g)
-    {
+	 public void dibujaImagenn1(Graphics g)
+        {
+		/*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
+		if(contadorIncremento == incrementoMax) 
+		{
+			aceleracion+=1;	
+			contadorIncremento=0;
+		}
+		
+		contadorIncremento++;
+		
+        g.drawImage(Imagenes.Singleton().imagen("Nivel1.jpg"), getX(), getY(), null);
+        setX(getX() - aceleracion);
+        if(getX()<-996)
+        {
+        	setX(0);
+        }
+    }
+        
+	public void dibujaImagenn2(Graphics g)
+        {
+
+    
+
 		/*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
 		if(contadorIncremento == incrementoMax) 
 		{

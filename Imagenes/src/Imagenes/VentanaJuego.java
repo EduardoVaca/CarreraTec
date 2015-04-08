@@ -54,6 +54,7 @@ public class VentanaJuego extends JFrame implements KeyListener{
             }
             
         }
+        repaint();
     }
 
     @Override

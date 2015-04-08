@@ -66,11 +66,21 @@ public class Personaje {
     
     void dibuja(Graphics g)
     {
-
+        
       //VOLVER A PISO
-      while(y <= 50 && Teclado.Singleton().space == false) //50 es la posicion actual de piso
-        { 
-         y++;
+       if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1)
+        {
+            while(y <= 175 && Teclado.Singleton().space == false) //50 es la posicion actual de piso
+            { 
+             y++;
+            }
+        }
+        else
+        {
+            while(y <= 50 && Teclado.Singleton().space == false) //50 es la posicion actual de piso
+            { 
+             y++;
+            }
         }
       
       //EN CASO DE SER SALTO
@@ -79,7 +89,7 @@ public class Personaje {
         contador = contador + 0.1;
         
         y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 5); //Gravedad
-        x= x + 5; //Avance en x
+        //x= x + 5; //Avance en x
         
         Teclado.Singleton().comandoDeshabilitado();
       }
