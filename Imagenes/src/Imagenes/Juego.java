@@ -42,7 +42,8 @@ public class Juego{
     public void actualiza(Graphics g)
     {
                  fondo.dibujaImagen(g);                
-                 Personaje.Singleton().dibuja(g);  
+                 Personaje.Singleton().dibuja(g); 
+                 Personaje.Singleton().getCol().draw(g);
                  dibujaEstrellas(g);
                  for(int i=0;i<numItems;i++)
                  {
