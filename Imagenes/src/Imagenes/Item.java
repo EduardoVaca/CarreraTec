@@ -21,7 +21,11 @@ public class Item {
         imagen = Imagenes.Singleton().imagen(nombre);
         this.alto = alto;
         this.ancho = ancho;
-        col = new Colisionador(x, y, alto, ancho);
+        if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1)
+            y = 215;
+        else if (MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n2)
+            y = 90;
+        col = new Colisionador(x, y, alto, ancho);       
     }
 
     public Colisionador getCol() {

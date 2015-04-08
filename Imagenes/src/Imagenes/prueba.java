@@ -7,7 +7,7 @@ public class prueba {
 		Imagenes.Singleton().cargaCarpeta("Imagenes");
 		while(true)
 		{
-			VentanaJuego.Singleton().repaint();
+			MenuInicio.Singleton().repaint();
 		}
 	}
 

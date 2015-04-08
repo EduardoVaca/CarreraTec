@@ -11,16 +11,18 @@ import java.util.Random;
 
 public class Juego{
     static Juego instancia=null;
-    static int numItems = 2;
+    static int numItems = 7;
     static Item [] items = new Item[numItems];
     static int numBotones;
-    boolean barraDesbloqueada, teclasDibujadas;
+    boolean barraDesbloqueada, teclasDibujadas, poderEspecial;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
     char teclaPresionada;
-    Tecla barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 100); // Tecla de barra espaciadora unica
+    Tecla barraEspaciadora; // Tecla de barra espaciadora unica
     Estrella estrellas [] = new Estrella [7];
-    int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
+    int numero_de_estrellas_reales = 5; // variable para contar las estrellas dibujadas
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
+    int piso;
+    Temporizador t = new Temporizador();
     
     public static Juego Singleton()
     {
@@ -39,50 +41,61 @@ public class Juego{
    
     public void actualiza(Graphics g)
     {
-                 Fondo.Singleton().dibujaImagen(g);                              
-                 Personaje.Singleton().dibuja(g); 
-                 Personaje.Singleton().getCol().draw(g);
-                 dibujaEstrellas(g);
+         if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1){
+             piso = 175;
+             Nivel1.Singleton().dibuja(g);
+         }else{
+             piso = 100;
+              Nivel2.Singleton().dibuja(g);
+         }                                              
+        Personaje.Singleton().dibuja(g); 
+        Personaje.Singleton().getCol().draw(g);
+        dibujaEstrellas(g);
 
-                 for(int i=0;i<numItems;i++)
-                 {
-                     items[i].dibuja(g);
-                     if(verificaColision(Personaje.Singleton(), items[i])){
-                         Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
-                         numero_de_estrellas_posibles = 0;
-                     }
-                 }
-                 /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
-                 if(barraDesbloqueada){
-                     barraEspaciadora.draw(g); 
-                     
-                 }  
-                 /*Si no hay teclas dibujadas y el personaje esta en estado  CORRIENDO, se generan las teclas a presionar*/
-                 if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){
-                     teclas = generaTeclas(); 
-                     numero_de_estrellas_reales += numero_de_estrellas_posibles;
-                     numero_de_estrellas_posibles = 0;
-                     if(numero_de_estrellas_reales >= 7){
-                         numero_de_estrellas_reales = 0;
-                         //AQUI SE DESACTIVA LA COLISION
-                     }
-                     teclasDibujadas = true;
-                 }
-                 if(teclas.size() > 0){
-                    verificaTeclaPresionada();                 
-                    for(Tecla i: teclas)
-                        i.draw(g);
-                 }             
+        for(int i=0;i<numItems;i++)
+        {
+            items[i].dibuja(g);
+            if(verificaColision(Personaje.Singleton(), items[i]) && poderEspecial == false){
+                Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
+                numero_de_estrellas_posibles = 0;
+            }
+        }
+        /* Condicion que generara teclas unicamente si estan no estan dibujadas*/
+        if(barraDesbloqueada){
+            barraEspaciadora.draw(g); 
+
+        }  
+        /*Si no hay teclas dibujadas y el personaje esta en estado  CORRIENDO, se generan las teclas a presionar*/
+        if(!teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run){
+            teclas = generaTeclas(piso); 
+            numero_de_estrellas_reales += numero_de_estrellas_posibles;
+            numero_de_estrellas_posibles = 0;
+            if(numero_de_estrellas_reales >= 7){
+                numero_de_estrellas_reales = 0;
+                //AQUI SE DESACTIVA LA COLISION                
+                t.setSegundos(5);
+                t.execute();
+                poderEspecial = true;
+            }
+            teclasDibujadas = true;
+        }
+        if(teclas.size() > 0){
+           verificaTeclaPresionada();                 
+           for(Tecla i: teclas)
+               i.draw(g);
+        }
+        if(poderEspecial)
+            desactivarColision(t);
     }
    
    /*Metodo que genera las telcas y las agrega al ArrayList, 
    regresando el arrayList lleno con numero de teclas aleatorias
    */
-    ArrayList<Tecla> generaTeclas(){
+    ArrayList<Tecla> generaTeclas(int y){
         Random rand = new Random();
         int numero_de_teclas = rand.nextInt(3) + 1;
         for(int i = 1; i <= numero_de_teclas; i++){
-            Tecla t = new Tecla(500 + (70 * i), 100);
+            Tecla t = new Tecla(500 + (70 * i), y);
             teclas.add(t);
         }  
         return teclas;
@@ -150,5 +163,11 @@ public class Juego{
               estrellas[i] = new Estrella(10 + (50 * i), 50);
               estrellas[i].draw(g);
           }
+      }
+      
+      public void desactivarColision(Temporizador t){         
+          System.out.println(t.toString());
+          if(t.toString().equals("00:00"))
+              poderEspecial = false;
       }
 }
