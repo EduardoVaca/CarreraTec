@@ -11,11 +11,12 @@ import java.util.Random;
 
 public class Juego{
     static Juego instancia=null;
-    static int numItems = 1;
+    static int numItems = 0;
     static Item [] items = new Item[numItems];
     static int numBotones;
-    boolean barraDesbloqueada, teclasDibujadas, poderEspecial;
+    boolean barraDesbloqueada, teclasDibujadas, poderEspecial, yaAgregoItem;
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
+    ArrayList<Item> lista_items = new ArrayList<Item>();
     char teclaPresionada;
     Tecla barraEspaciadora; // Tecla de barra espaciadora unica
     Estrella estrellas [] = new Estrella [7];
@@ -23,6 +24,8 @@ public class Juego{
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
     int piso;
     Temporizador t = new Temporizador();
+    int constante_de_generacion_items = 6; //variable para ver cada cuantos segundos se generara un item   
+    int segundoActual;
     
     public static Juego Singleton()
     {
@@ -51,6 +54,12 @@ public class Juego{
         Personaje.Singleton().dibuja(g); 
         Personaje.Singleton().getCol().draw(g);
         dibujaEstrellas(g);
+        if(Temporizador.Singleton().getSegundos() % 7 == 0 && yaAgregoItem == false){
+            generacionDeItems(g);
+            //segundoActual = Temporizador.Singleton().getSegundos();
+        }
+        else if(segundoActual != Temporizador.Singleton().getSegundos())
+            yaAgregoItem = false;
 
         for(int i=0;i<numItems;i++)
         {
@@ -86,6 +95,12 @@ public class Juego{
         }
         if(poderEspecial)
             desactivarColision(t);
+         for(Item i : lista_items){
+              if(i.getX() < -50 && lista_items.size() == 1)
+                 lista_items.remove(0);
+              else
+                  i.dibuja(g);
+          }
     }
    
    /*Metodo que genera las telcas y las agrega al ArrayList, 
@@ -173,5 +188,11 @@ public class Juego{
           //System.out.println(t.toString());
           if(t.toString().equals("00:00"))
               poderEspecial = false;
+      }
+      
+      public void generacionDeItems(Graphics g){          
+            lista_items.add(new Item(50,50));
+            yaAgregoItem = true;
+            segundoActual = Temporizador.Singleton().getSegundos();                   
       }
 }

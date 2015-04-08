@@ -45,9 +45,15 @@ public class Item {
     public void dibuja(Graphics g)
     {
       g.drawImage(imagen, x, y, null);
-      x-=vx;
+      x -= vx;
       col.setxInferior(x + ancho);
       col.setxSuperior(x);
       col.draw(g);
     }
+
+    public int getX() {
+        return x;
+    }
+    
+    
 }
