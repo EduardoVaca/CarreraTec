@@ -22,8 +22,8 @@ public class Juego{
     int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
     int piso;
-    Temporizador t = new Temporizador();
-    int constante_de_generacion_items = 4; //variable para ver cada cuantos segundos se generara un item   
+    Temporizador t;
+    int constante_de_generacion_items = 5; //variable para ver cada cuantos segundos se generara un item   
     int segundoActual;
     
     public static Juego Singleton()
@@ -50,7 +50,8 @@ public class Juego{
         Personaje.Singleton().getCol().draw(g);
         dibujaEstrellas(g);
         //Condicion que cuida relacion entre tiempo y reproduccion de frames
-        if(Temporizador.Singleton().getSegundos() % constante_de_generacion_items == 0 && yaAgregoItem == false){
+        if(Temporizador.Singleton().getSegundos() % constante_de_generacion_items == 0 && yaAgregoItem == false
+                && Personaje.Singleton().getEstado() != Personaje.Estados.colision){
             generacionDeItems(g);                      
         }
         else if(segundoActual != Temporizador.Singleton().getSegundos())
@@ -67,15 +68,15 @@ public class Juego{
             numero_de_estrellas_reales += numero_de_estrellas_posibles;
             numero_de_estrellas_posibles = 0;
             if(numero_de_estrellas_reales >= 7){
-                numero_de_estrellas_reales = 0;
-                //AQUI SE DESACTIVA LA COLISION                
+                numero_de_estrellas_reales = 0;   
+                t = new Temporizador();
                 t.setSegundos(5);
                 t.execute();
                 poderEspecial = true;
             }
             teclasDibujadas = true;
         }
-        if(teclas.size() > 0){
+        if(teclas.size() > 0 && poderEspecial == false){
            verificaTeclaPresionada();                 
            for(Tecla i: teclas)
                i.draw(g);
@@ -88,9 +89,11 @@ public class Juego{
                  lista_items.remove(0);
               else{
                   i.dibuja(g);
-                if(verificaColision(Personaje.Singleton(), i) && poderEspecial == false){
+                if(verificaColision(Personaje.Singleton(), i) && poderEspecial == false && i.isAfecta() == true){
                 //Desactivar colisionador del item con el que choco....
-                Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);                
+                i.setAfecta(false);
+                Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision); 
+                //System.out.println("Estado en COLISION: " + Personaje.Singleton().getEstado().toString());
                 numero_de_estrellas_posibles = 0;
                 }
               }
@@ -180,15 +183,21 @@ public class Juego{
       
       /*Metodo para frenar poder especial hasta que el mini temporizador sea 00:00*/
       public void desactivarColision(Temporizador t){         
-          //System.out.println(t.toString());
-          if(t.toString().equals("00:00"))
+          System.out.println(t.toString());
+          if(t.toString().equals("00:00")){
               poderEspecial = false;
+              System.out.println("Se desactivaPODER");
+          }
+              
       }
       
-      public void generacionDeItems(Graphics g){          
-            lista_items.add(new Item(50,50));
-            yaAgregoItem = true;
-            segundoActual = Temporizador.Singleton().getSegundos(); 
-            System.out.println("SE AGREGO ITEM EN TIEMPO: " + Temporizador.Singleton().toString() + " ... " + Temporizador.Singleton().getSegundos());
+      public void generacionDeItems(Graphics g){
+            if(Personaje.Singleton().getEstado() != Personaje.Estados.colision){
+                //System.out.println("ESTADO: " + Personaje.Singleton().getEstado().toString());
+                lista_items.add(new Item(50,50));
+                yaAgregoItem = true;
+                segundoActual = Temporizador.Singleton().getSegundos(); 
+                //System.out.println("SE AGREGO ITEM EN TIEMPO: " + Temporizador.Singleton().toString() + " ... " + Temporizador.Singleton().getSegundos());
+            }           
       }
 }

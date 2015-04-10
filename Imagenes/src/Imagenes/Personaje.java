@@ -88,7 +88,7 @@ public class Personaje {
       {
         contador = contador + 0.1;
         
-        y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 5); //Gravedad
+        y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 13); //Gravedad
         //x= x + 5; //Avance en x
         
         Teclado.Singleton().comandoDeshabilitado();
@@ -117,6 +117,7 @@ public class Personaje {
                 if(tiempoColision > 17)
                 {
                   estado = estado.run;
+                  //System.out.println("CAMBIO DE COLISION A RUN!!!!!");
                   Fondo.Singleton().setAceleracion(4); // aceleracion default
                   tiempoColision = 0;
                 }                                              
