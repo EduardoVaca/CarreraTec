@@ -7,7 +7,7 @@ package Imagenes;
 import java.awt.Graphics;
 
 public class Personaje {
-    enum Estados {jump, run, colision}
+    enum Estados {jump, run, colision, perder, ganar}
     Estados estado = Estados.run;
     Cronometro duracion = new Cronometro(4,400);
     int x, y;
@@ -18,8 +18,12 @@ public class Personaje {
     double contador = 4; 
     static Personaje instancia = null;
     
-    int alto, ancho;
+	int alto, ancho;
     Colisionador col;
+    
+    int tiempoDelay = 0;  //tiempo que retarda una imagen
+    boolean delay = false; //para retardar una imagen
+    
     int tiempoColision = 0;
    
     static Personaje Singleton()
@@ -66,9 +70,9 @@ public class Personaje {
     
     void dibuja(Graphics g)
     {
-
-      //VOLVER A PISO
-        if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1)
+        
+    	/* Regresa a la posicion original de personaje en x */
+       if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1)
         {
             while(y <= 175 && Teclado.Singleton().space == false) //50 es la posicion actual de piso
             { 
@@ -83,17 +87,20 @@ public class Personaje {
             }
         }
       
-      
-      //EN CASO DE SER SALTO
+       /* Efecto parabolico en un salto */
       if(Teclado.Singleton().space)
       {
         contador = contador + 0.1;
+        y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 8); //Gravedad
+
+        //x= x + 5; //Avance en x
         
-        y = y + (int)((Math.sin(contador) + Math.cos(contador)) * 5); //Gravedad
-        x= x + 5; //Avance en x
-        
-            Teclado.Singleton().comandoDeshabilitado();
+        Teclado.Singleton().comandoDeshabilitado();
+     
       }
+      col.setyInferior(y + alto);
+      col.setySuperior(y);
+      
       
       //CAMBIO DE ESTADO
         switch(estado)
@@ -108,7 +115,8 @@ public class Personaje {
              break;
 
              case colision:
-             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"colision.png"), x, y, null);                          
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"colision.png"), x, y, null);           
+             Teclado.Singleton().space=false;
              if(duracion.esTiempo())
                {                              
                 tiempoColision++; 
@@ -120,7 +128,19 @@ public class Personaje {
                   tiempoColision = 0;
                 }                                              
               }
-             break;     
+             break;
+             
+             case perder:
+             Fondo.Singleton().setAceleracion(0);
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"perder"+contS1+".png"), x, y, null);
+             this.animacionRetardo(4, ControlVentanas.Singleton().estadoJuego.perder);
+             break;
+             
+             case ganar:
+             Fondo.Singleton().setAceleracion(0);
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"ganar"+contS1+".png"), x, y, null);
+             this.animacionRetardo(8, ControlVentanas.Singleton().estadoJuego.ganar);
+             break;
         }
     }
 
@@ -133,11 +153,41 @@ public class Personaje {
              
              if(contS1 > numeroImagenes)
              {
-             contS1 = 1;
-             Teclado.Singleton().space = false;
-              estado = estado.run;
+             contS1 = 7;
+             if(y>=175)
+             {
+                contS1=1;
+                Teclado.Singleton().space = false;
+                estado = estado.run;
+             }
              }
       }
+    }
+    
+    /* Permite visualizar un periodo más largo una imagen en una animación (utilizado para ganar y perder) */
+    void animacionRetardo(int numeroImagenes, ControlVentanas.EstadoJuego estado)
+    {
+    	if(duracion.esTiempo())
+        {
+       	if(delay == false)
+       	{
+               contS1++;
+       	}else
+       	{
+       		tiempoDelay++;
+       	}
+     	
+           if(contS1 > numeroImagenes)
+           {
+              delay = true;
+           }
+           
+           if(tiempoDelay == 15)
+           {
+             ControlVentanas.Singleton().setEstadoJuego(estado);
+             contS1=1;
+           }
+        }
     }
     
     public String getNombreImagen() {

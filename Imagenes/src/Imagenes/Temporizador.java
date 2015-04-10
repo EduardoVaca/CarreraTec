@@ -14,7 +14,7 @@ import javax.swing.SwingWorker;
 public class Temporizador extends SwingWorker<Boolean,Void>{
     
     int minutos, segundos;
-    static Temporizador instancia=null;
+    static Temporizador instancia = null;
     public static Temporizador Singleton()
     {
          if(instancia==null)
@@ -24,8 +24,7 @@ public class Temporizador extends SwingWorker<Boolean,Void>{
          }
          return instancia;
     }
-    
-    
+        
     
     public String toString()
     {
@@ -103,6 +102,9 @@ public class Temporizador extends SwingWorker<Boolean,Void>{
             }
             catch(Exception e)
             {}
+            
+            if(this.toString().equals("00:00"))
+                return false;
        }
         
    }

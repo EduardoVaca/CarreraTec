@@ -21,16 +21,21 @@ public class Nivel1 {
             Personaje.Singleton().setPosicion(30, 175);
             Personaje.Singleton().setTamano(96, 96);
             Juego.Singleton().barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 175);
-            Temporizador.Singleton().setMinutos(5);
-            Temporizador.Singleton().setSegundos(0);
+            Temporizador.Singleton().setMinutos(0);
+            Temporizador.Singleton().setSegundos(40);
             Temporizador.Singleton().execute();
          }
          return instancia;
     }
     public void dibuja (Graphics g)
     {
+        if(Temporizador.Singleton().toString() != "00:00")
+        {
+        	g.drawString("Tiempo: ",-50, -50);
+        }
+        
         Fondo.Singleton().dibujaImagenn1(g);
-        VentanaJuego.Singleton().setBounds(100, 100, 997, 292);
+        VentanaJuego.Singleton().setBounds(100, 100, 997, 317);
         if(!Juego.Singleton().teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run)
         {
                      Juego.Singleton().teclas = Juego.Singleton().generaTeclas(175);                    

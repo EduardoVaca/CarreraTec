@@ -60,7 +60,9 @@ public class Colisionador {
     public int getyInferior() {
         return yInferior;
     }
-
+    
+    
+    
     public void draw(Graphics g){
         g.setColor(Color.red);
         g.drawRect(xSuperior, ySuperior, ancho, alto);   

@@ -22,13 +22,16 @@ public class Nivel2 {
             Personaje.Singleton().setPosicion(30, 50);
             Personaje.Singleton().setTamano(96, 96);
             Juego.Singleton().barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 100);
+            Temporizador.Singleton().setMinutos(3);
+            Temporizador.Singleton().setSegundos(0);
+            Temporizador.Singleton().execute();
          }
          return instancia;
     }
     public void dibuja (Graphics g)
     {
         Fondo.Singleton().dibujaImagenn2(g);
-        VentanaJuego.Singleton().setBounds(100, 100, 956, 205);
+        VentanaJuego.Singleton().setBounds(100, 100, 956, 317);
         if(!Juego.Singleton().teclasDibujadas && Personaje.Singleton().getEstado() == Personaje.Estados.run)
         {
                      Juego.Singleton().teclas = Juego.Singleton().generaTeclas(100);                    

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Imagenes;
 
 import static Imagenes.VentanaJuego.Singleton;
@@ -154,7 +153,6 @@ public class MenuInicio extends JFrame implements KeyListener
                }
                break;
         }
-
         repaint();
     }
 
@@ -163,3 +161,4 @@ public class MenuInicio extends JFrame implements KeyListener
     }
     
 }
+
