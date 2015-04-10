@@ -106,7 +106,7 @@ public class Personaje {
              case jump:
              g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"jump"+contS1+".png"), x, y, null);
              this.animacionSalto(numeroImagenes);
-              try
+             try
             {
                 musica = AudioSystem.getAudioInputStream(getClass().getResource("Salto1.wav"));
                 clip = AudioSystem.getClip();
@@ -121,8 +121,20 @@ public class Personaje {
              break;
 
              case colision:
-             g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"colision.png"), x, y, null);  
-             Teclado.Singleton().space=false;                        
+             g.drawImage(Imagenes.Singleton().imagen(nombreImagen + "colision.png"), x, y, null);  
+             Teclado.Singleton().space=false;    
+             try
+            {
+                musica = AudioSystem.getAudioInputStream(getClass().getResource("col.wav"));
+                clip = AudioSystem.getClip();
+                clip.open(musica);
+                if(!sonido){
+                    clip.start();
+                    sonido = true;
+                }                
+            }catch(Exception ex){
+
+            }
              if(duracion.esTiempo())
                {                              
                 tiempoColision++; 
