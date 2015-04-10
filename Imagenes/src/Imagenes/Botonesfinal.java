@@ -33,11 +33,11 @@ public class Botonesfinal extends JButton{
                   Temporizador.instancia=null;
                   Opciones.instancia=null;
                   ControlVentanas.instancia=null;
-                  fondoPerder.instancia=null;
-                  //MenuInicio.instancia=null;
+                  fondoPerder.instancia=null;                  
                   MenuInicio.Singleton().setEstadon(MenuInicio.Singleton().estadon.n1);
                   MenuInicio.Singleton().setVisible(true);
                   Perder.Singleton().setVisible(false);
+                  Ganar.Singleton().setVisible(false);
                   
                   
               }
