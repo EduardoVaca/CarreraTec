@@ -56,6 +56,14 @@ public class Tecla {
     public char getLetra() {
         return letra;
     }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
         
     
     void draw(Graphics g){

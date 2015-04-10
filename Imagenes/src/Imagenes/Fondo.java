@@ -11,8 +11,8 @@ import java.awt.Graphics;
 public class Fondo {
 
     private int x=0,y=0; 
-    int aceleracion = 4; //velocidad a la que se mueve el background
-    int incrementoMax=250; // duracion de los lapsos para incrementar velocidad
+    int aceleracion = 8; //velocidad a la que se mueve el background
+    int incrementoMax=100; // duracion de los lapsos para incrementar velocidad
     int contadorIncremento=0; //inicio de un lapso
     boolean desarrollo, fin = false;
     boolean inicio=true;
@@ -37,55 +37,56 @@ public class Fondo {
 	}
 
 
-        public void dibujaImagenn1(Graphics g)
-        {
-		/*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
-		if(contadorIncremento == incrementoMax) 
-		{
-			aceleracion+=1;	
-			contadorIncremento=0;
-		}
-		
-		contadorIncremento++;
-		if(inicio)
-                {
-                    g.drawImage(Imagenes.Singleton().imagen("Nivel1inicio.png"), getX(), 25, null);
-                }
-                else if(desarrollo)
-                {
-                    g.drawImage(Imagenes.Singleton().imagen("Nivel1.png"), getX(), 25, null);
-                }
-                else if(fin)
-                {
-                    g.drawImage(Imagenes.Singleton().imagen("Nivel1final.png"), getX(), 25, null);
-                }
-        setX(getX() - aceleracion);
-        if(inicio && getX()<-994)
-        {
-            setX(0);
-            inicio=false;
-            desarrollo=true;
-        }
-        if(getX()<-1988)
-        {
-        	setX(0);
-                if(desarrollo)
-                {
-                    desarrollo=false;
-                    fin=true;
-                }
-                else if(fin)
-                {
-                    fin=false;
-                    Personaje.Singleton().setEstado(Personaje.Singleton().estado.colision);
-                }
+    public void dibujaImagenn1(Graphics g)
+    {
+            /*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
+            if(contadorIncremento == incrementoMax) 
+            {
+                    aceleracion+=1;	
+                    contadorIncremento=0;
+            }
+
+            contadorIncremento++;
+            if(inicio)
+            {
+                g.drawImage(Imagenes.Singleton().imagen("Nivel1inicio.png"), getX(), 25, null);
+            }
+            else if(desarrollo)
+            {
+                g.drawImage(Imagenes.Singleton().imagen("Nivel1.png"), getX(), 25, null);
+            }
+            else if(fin)
+            {
+                g.drawImage(Imagenes.Singleton().imagen("Nivel1final.png"), getX(), 25, null);
+            }
+                        if(!fin || getX()>-1988)
+                        {
+                        setX(getX() - aceleracion);
+                        }
+                            if(inicio && getX()<-994)
+                            {
+                                setX(0);
+                                inicio=false;
+                                desarrollo=true;
+                            }
+                            if(getX()<-1988)
+                            {
+                                setX(0);
+                                if(desarrollo)
+                                {
+                                    desarrollo=false;
+                                    fin=true;
+                                }
+                                else if(fin)
+                                {
+
+                                    Personaje.Singleton().setEstado(Personaje.Singleton().estado.ganar);
+                                }
         }
     }
         
 	public void dibujaImagenn2(Graphics g)
         {
-
-    
 
 		/*Al cumplir con un lapso se incrementa la aceleracion siempre y cuando no haya una colision*/
 		if(contadorIncremento == incrementoMax) 
@@ -104,22 +105,26 @@ public class Fondo {
                     g.drawImage(Imagenes.Singleton().imagen("Nivel2final.png"), getX(), 25, null);
                 }    
                 
-        
-        setX(getX() - aceleracion);
-        if(getX()<-955)
-        {
-            contn2++;
-            setX(0);
-            if(contn2==2)
-            {
-                inicio=false;
-                fin=true;
-            }
-            else if(fin)
-            {
-                fin=false;
-            }
-        }
+                if(!fin || getX()>-955)
+                {
+                setX(getX() - aceleracion);
+                }
+                if(getX()<-955)
+                {
+                    contn2++;
+                    if(!fin)
+                    {
+                        setX(0);
+                    }
+                    if(contn2==2)
+                    {
+                        inicio=false;
+                        fin=true;
+                    }
+                    else if(fin)
+                    {
+                    }
+                }
     }
 
 

@@ -19,7 +19,7 @@ public class Nivel2 {
          if(instancia==null)
          {
             instancia=new Nivel2();
-            Personaje.Singleton().setPosicion(30, 50);
+            Personaje.Singleton().setPosicion(30, 175);
             Personaje.Singleton().setTamano(96, 96);
             Juego.Singleton().barraEspaciadora = new Tecla("TeclaSPACE.png", 400, 100);
             Temporizador.Singleton().setMinutos(3);

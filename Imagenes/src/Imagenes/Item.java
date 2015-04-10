@@ -16,6 +16,7 @@ public class Item {
     int alto, ancho;
     Colisionador col;
     String nombre;
+    boolean afecta;
     
     public Item(int ancho, int alto){ 
         Random r = new Random();
@@ -25,19 +26,27 @@ public class Item {
         }            
         else if (MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n2){
             nombre = "item" + (r.nextInt(3) + 4) + ".png";
-            y = 90;   
+            y = 215;   
         }
         this.x = VentanaJuego.Singleton().getWidth();
         this.vx = Fondo.Singleton().getAceleracion();
         imagen = Imagenes.Singleton().imagen(nombre);
         this.alto = alto;
         this.ancho = ancho;
-                  
+        afecta = true;         
         col = new Colisionador(x, y, alto, ancho);       
     }
 
     public Colisionador getCol() {
         return col;
+    }
+
+    public boolean isAfecta() {
+        return afecta;
+    }
+
+    public void setAfecta(boolean afecta) {
+        this.afecta = afecta;
     }
     
     
@@ -45,10 +54,10 @@ public class Item {
     public void dibuja(Graphics g)
     {
       g.drawImage(imagen, x, y, null);
-      x -= vx;
+      x -= Fondo.Singleton().getAceleracion();
       col.setxInferior(x + ancho);
       col.setxSuperior(x);
-      col.draw(g);
+      //col.draw(g);
     }
 
     public int getX() {
