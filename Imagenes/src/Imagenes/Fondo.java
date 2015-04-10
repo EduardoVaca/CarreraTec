@@ -123,6 +123,7 @@ public class Fondo {
                     }
                     else if(fin)
                     {
+                         Personaje.Singleton().setEstado(Personaje.Singleton().estado.ganar);
                     }
                 }
     }

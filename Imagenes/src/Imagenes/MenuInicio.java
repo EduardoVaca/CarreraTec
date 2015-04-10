@@ -10,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
+import javax.sound.sampled.*;
 /**
  *
  * @author Edu
@@ -23,7 +24,8 @@ public class MenuInicio extends JFrame implements KeyListener
     public static MenuInicio instancia = null;
     static JPanel bgimagen;
     boolean juegoiniciado=false;
-    
+    Clip clip;
+    AudioInputStream musica;
     //Es estatico para que no sea necesario crear un objeto para acceder a esta instancia 
     public static MenuInicio Singleton()
     {
@@ -66,7 +68,15 @@ public class MenuInicio extends JFrame implements KeyListener
         bgimagen.add(pruebaes, BorderLayout.WEST);
         bgimagen.add(titulo, BorderLayout.NORTH);
         bgimagen.add(Opciones.Singleton(), BorderLayout.CENTER);
-        
+        try
+        {
+            musica = AudioSystem.getAudioInputStream(getClass().getResource("cancion incio.wav"));
+            clip = AudioSystem.getClip();
+            clip.open(musica);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        }catch(Exception ex){
+            
+        }
     }
 
     public Estados getEstado() {

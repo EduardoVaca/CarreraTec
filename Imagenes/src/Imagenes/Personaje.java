@@ -5,6 +5,9 @@
 package Imagenes;
 
 import java.awt.Graphics;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class Personaje {
     enum Estados {jump, run, colision, perder, ganar}
@@ -22,6 +25,9 @@ public class Personaje {
     int alto, ancho;
     Colisionador col;
     int tiempoColision = 0;
+    Clip clip;
+    AudioInputStream musica;
+    boolean sonido;
    
     static Personaje Singleton()
     {
@@ -94,11 +100,24 @@ public class Personaje {
         {
              case run:
              g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"run.gif"), x, y, null);
+             sonido = false;
              break;
              
              case jump:
              g.drawImage(Imagenes.Singleton().imagen(nombreImagen+"jump"+contS1+".png"), x, y, null);
              this.animacionSalto(numeroImagenes);
+              try
+            {
+                musica = AudioSystem.getAudioInputStream(getClass().getResource("Salto1.wav"));
+                clip = AudioSystem.getClip();
+                clip.open(musica);
+                if(!sonido){
+                    clip.start();
+                    sonido = true;
+                }                
+            }catch(Exception ex){
+
+            }
              break;
 
              case colision:

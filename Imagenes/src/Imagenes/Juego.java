@@ -43,9 +43,9 @@ public class Juego{
    
     public void actualiza(Graphics g)
     {
-         if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1){
-            barraEspaciadora.setPosX(550);
-            barraEspaciadora.setPosY(230);
+        barraEspaciadora.setPosX(550);
+        barraEspaciadora.setPosY(230);
+         if(MenuInicio.Singleton().getEstadon()==MenuInicio.Singleton().estadon.n1){        
             piso = 175;
             Nivel1.Singleton().dibuja(g);
          }else{
