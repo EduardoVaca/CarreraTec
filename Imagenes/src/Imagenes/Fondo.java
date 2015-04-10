@@ -71,7 +71,8 @@ public class Fondo {
                             }
                             if(getX()<-1988)
                             {
-                                setX(0);
+                                if(fin == false)
+                                    setX(0);
                                 if(desarrollo)
                                 {
                                     desarrollo=false;
