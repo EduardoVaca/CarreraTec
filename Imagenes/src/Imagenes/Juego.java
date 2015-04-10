@@ -18,7 +18,7 @@ public class Juego{
     ArrayList <Tecla> teclas = new ArrayList <Tecla>();
     ArrayList<Item> lista_items = new ArrayList<Item>();
     char teclaPresionada;
-    Tecla barraEspaciadora; // Tecla de barra espaciadora unica
+    Tecla barraEspaciadora = new Tecla("TeclaSPACE.png", 200, 200); // Tecla de barra espaciadora unica
     Estrella estrellas [] = new Estrella [7];
     int numero_de_estrellas_reales = 0; // variable para contar las estrellas dibujadas
     int numero_de_estrellas_posibles = 0; // variable para contar las estrellas que se acomulan o ganan en cada salto
@@ -108,7 +108,7 @@ public class Juego{
 
         //PERDER EN EL JUEGO
         g.setFont(new Font("Candara", Font.PLAIN, 28));
-        g.drawString("Tiempo: "+Temporizador.Singleton().toString(),ancho-230, 350);        
+        g.drawString("Tiempo: "+Temporizador.Singleton().toString(),ancho-570, 290);        
         
         if(Temporizador.Singleton().toString().equals("00:00"))
         {
